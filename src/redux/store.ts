@@ -1,15 +1,15 @@
-// src/app/store.ts
 import { configureStore } from '@reduxjs/toolkit';
-// Import your reducers here
-import counterReducer from '../redux/Feature/counterSlice';
+import dataSlice from './Slice/dataSlice';
+import { userProfileService } from './Service/profileService';
 
 export const store = configureStore({
-  reducer: {
-    counter: counterReducer,
-    // Add other reducers here
-  },
+    reducer: {
+        card: dataSlice,
+        //  reducers 
+        [userProfileService.reducerPath]: userProfileService.reducer,
+    },
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userProfileService.middleware)
 });
-
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;
