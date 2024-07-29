@@ -1,24 +1,32 @@
+// src/App.tsx
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { useSelector, useDispatch } from 'react-redux';
+import { RootState } from './redux/store';
+import { decrement, increment, selectCount } from './redux/Feature/counterSlice';
+// import { RootState } from './app/store';
+// import { increment, decrement, selectCount } from './features/counter/counterSlice';
 
-function App() {
+const App: React.FC = () => {
+  const dispatch = useDispatch();
+  const count = useSelector((state: RootState) => selectCount(state));
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h1 className="text-4xl font-bold mb-4">Counter: {count}</h1>
+      <div>
+        <button
+          className="bg-blue-500 text-white px-4 py-2 rounded mr-2"
+          onClick={() => dispatch(increment())}
         >
-          Learn React
-        </a>
-      </header>
+          Increment
+        </button>
+        <button
+          className="bg-red-500 text-white px-4 py-2 rounded"
+          onClick={() => dispatch(decrement())}
+        >
+          Decrement
+        </button>
+      </div>
     </div>
   );
 }
